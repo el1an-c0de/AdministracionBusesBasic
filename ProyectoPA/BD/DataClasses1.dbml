@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ProyectoBD" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ElianGL753VE;Initial Catalog=ProyectoBD;Integrated Security=True" SettingsObjectName="ProyectoPA.Properties.Settings" SettingsPropertyName="ProyectoBDConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Buses" Member="Buses">
+    <Type Name="Buses">
+      <Column Name="IDBus" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Placa" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Modelo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Dueno" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NoBus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Buses_Carrera" Member="Carrera" ThisKey="IDBus" OtherKey="IDBus" Type="Carrera" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Sesion" Member="Sesion">
+    <Type Name="Sesion">
+      <Column Name="IDSesion" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Contrasena" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Tipo" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Carrera" Member="Carrera">
+    <Type Name="Carrera">
+      <Column Name="IDCarrera" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tiempo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="HoraLlegada" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="IDBus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDRuta" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDChofer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Buses_Carrera" Member="Buses" ThisKey="IDBus" OtherKey="IDBus" Type="Buses" IsForeignKey="true" />
+      <Association Name="Chofer_Carrera" Member="Chofer" ThisKey="IDChofer" OtherKey="IDChofer" Type="Chofer" IsForeignKey="true" />
+      <Association Name="Ruta_Carrera" Member="Ruta" ThisKey="IDRuta" OtherKey="IDRuta" Type="Ruta" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Chofer" Member="Chofer">
+    <Type Name="Chofer">
+      <Column Name="IDChofer" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombres" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Apellidos" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TipoLicencia" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Cedula" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Association Name="Chofer_Carrera" Member="Carrera" ThisKey="IDChofer" OtherKey="IDChofer" Type="Carrera" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ruta" Member="Ruta">
+    <Type Name="Ruta">
+      <Column Name="IDRuta" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NombreRuta" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Tarifa" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Association Name="Ruta_Carrera" Member="Carrera" ThisKey="IDRuta" OtherKey="IDRuta" Type="Carrera" />
+    </Type>
+  </Table>
+  <Function Name="dbo.ActualizarBuses" Method="ActualizarBuses">
+    <Parameter Name="IdBus" Parameter="idBus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Placa" Parameter="placa" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Modelo" Parameter="modelo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Dueno" Parameter="dueno" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="NoBus" Parameter="noBus" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ListarSesion" Method="ListarSesion">
+    <ElementType Name="ListarSesionResult">
+      <Column Name="IDSesion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Usuario" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Contrasena" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Tipo" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ActualizarCarrera" Method="ActualizarCarrera">
+    <Parameter Name="IdCarrera" Parameter="idCarrera" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdBus" Parameter="idBus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdRuta" Parameter="idRuta" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdChofer" Parameter="idChofer" Type="System.Int32" DbType="Int" />
+    <Parameter Name="HoraSalida" Parameter="horaSalida" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="HoraLlegada" Parameter="horaLlegada" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Estado" Parameter="estado" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ActualizarChofer" Method="ActualizarChofer">
+    <Parameter Name="IdChofer" Parameter="idChofer" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Nombres" Parameter="nombres" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Apellidos" Parameter="apellidos" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="TipoLicencia" Parameter="tipoLicencia" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Cedula" Parameter="cedula" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ActualizarRuta" Method="ActualizarRuta">
+    <Parameter Name="IdRuta" Parameter="idRuta" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NombreRuta" Parameter="nombreRuta" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Tarifa" Parameter="tarifa" Type="System.Decimal" DbType="Money" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ActualizarSesion" Method="ActualizarSesion">
+    <Parameter Name="IdSesion" Parameter="idSesion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Usuario" Parameter="usuario" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Contrasena" Parameter="contrasena" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Tipo" Parameter="tipo" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EliminarBuses" Method="EliminarBuses">
+    <Parameter Name="IdBus" Parameter="idBus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Placa" Parameter="placa" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Modelo" Parameter="modelo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Dueno" Parameter="dueno" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="NoBus" Parameter="noBus" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EliminarChofer" Method="EliminarChofer">
+    <Parameter Name="IdChofer" Parameter="idChofer" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Nombres" Parameter="nombres" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Apellidos" Parameter="apellidos" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="TipoLicencia" Parameter="tipoLicencia" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Cedula" Parameter="cedula" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EliminarRuta" Method="EliminarRuta">
+    <Parameter Name="IdRuta" Parameter="idRuta" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NombreRuta" Parameter="nombreRuta" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Tarifa" Parameter="tarifa" Type="System.Decimal" DbType="Money" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EliminarSesion" Method="EliminarSesion">
+    <Parameter Name="IdSesion" Parameter="idSesion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Usuario" Parameter="usuario" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Contrasena" Parameter="contrasena" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Tipo" Parameter="tipo" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InsertarBuses" Method="InsertarBuses">
+    <Parameter Name="IdBus" Parameter="idBus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Placa" Parameter="placa" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Modelo" Parameter="modelo" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Dueno" Parameter="dueno" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="NoBus" Parameter="noBus" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InsertarCarrera" Method="InsertarCarrera">
+    <Parameter Name="IdCarrera" Parameter="idCarrera" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdBus" Parameter="idBus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdRuta" Parameter="idRuta" Type="System.Int32" DbType="Int" />
+    <Parameter Name="IdChofer" Parameter="idChofer" Type="System.Int32" DbType="Int" />
+    <Parameter Name="HoraSalida" Parameter="horaSalida" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="HoraLlegada" Parameter="horaLlegada" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Estado" Parameter="estado" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InsertarChofer" Method="InsertarChofer">
+    <Parameter Name="IdChofer" Parameter="idChofer" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Nombres" Parameter="nombres" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Apellidos" Parameter="apellidos" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="TipoLicencia" Parameter="tipoLicencia" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Cedula" Parameter="cedula" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InsertarRuta" Method="InsertarRuta">
+    <Parameter Name="IdRuta" Parameter="idRuta" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NombreRuta" Parameter="nombreRuta" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Tarifa" Parameter="tarifa" Type="System.Decimal" DbType="Money" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InsertarSesion" Method="InsertarSesion">
+    <Parameter Name="IdSesion" Parameter="idSesion" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Usuario" Parameter="usuario" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Contrasena" Parameter="contrasena" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="Tipo" Parameter="tipo" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ListarBuses" Method="ListarBuses">
+    <ElementType Name="ListarBusesResult">
+      <Column Name="IDBus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Placa" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Modelo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Dueno" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NoBus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ListarBusFiltrar" Method="ListarBusFiltrar">
+    <Parameter Name="valor" Type="System.String" DbType="VarChar(25)" />
+    <ElementType Name="ListarBusFiltrarResult">
+      <Column Name="IDBus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Placa" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Modelo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Dueno" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NoBus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ListarCarrera" Method="ListarCarrera">
+    <ElementType Name="ListarCarreraResult">
+      <Column Name="IDCarrera" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tiempo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="HoraLlegada" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="IDBus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDRuta" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDChofer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ListarCarreraFiltrar" Method="ListarCarreraFiltrar">
+    <Parameter Name="valor" Type="System.String" DbType="VarChar(25)" />
+    <ElementType Name="ListarCarreraFiltrarResult">
+      <Column Name="IDCarrera" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tiempo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="HoraLlegada" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="IDBus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDRuta" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDChofer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ListarChofer" Method="ListarChofer">
+    <ElementType Name="ListarChoferResult">
+      <Column Name="IDChofer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nombres" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Apellidos" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TipoLicencia" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Cedula" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ListarChoferFiltrar" Method="ListarChoferFiltrar">
+    <Parameter Name="valor" Type="System.String" DbType="VarChar(25)" />
+    <ElementType Name="ListarChoferFiltrarResult">
+      <Column Name="IDChofer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nombres" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Apellidos" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TipoLicencia" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Cedula" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ListarRuta" Method="ListarRuta">
+    <ElementType Name="ListarRutaResult">
+      <Column Name="IDRuta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreRuta" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Tarifa" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ListarRutaFiltrar" Method="ListarRutaFiltrar">
+    <Parameter Name="valor" Type="System.String" DbType="VarChar(25)" />
+    <ElementType Name="ListarRutaFiltrarResult">
+      <Column Name="IDRuta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreRuta" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Tarifa" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>
